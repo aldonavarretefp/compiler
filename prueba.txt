@@ -1,0 +1,10 @@
+O07 O O0 O7 o7 o0
+$$hola $var $var2 $1 $HOLA
+0 0. 0.1 .1 000.0 00.00000 .
+<= < >= <= >= == !=
+=
+[](){},;:.
+'a' 'b' 'c' '1'
+"ho7la 'mundo" "" "ejemplo no" "valido" """
+"Puto el Chuy" "aldo" "Hoy es un buen dia para morir"
+"Hoy estamos a 25 de octubre de 2022" s

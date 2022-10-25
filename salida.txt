@@ -1,0 +1,51 @@
+octal O07
+octal O
+octal O0
+octal O7
+octal o7
+octal o0
+ $hola es un identificador
+ $var es un identificador
+ $var2 es un identificador
+ $1 es un identificador
+ $HOLA es un identificador
+ 0 es un entero
+ 0 es un entero
+ 0.1 es un real
+ .1 es un real
+ 000.0 es un real
+ 00.00000 es un real
+ <= es un operador relacional
+ < es un operador relacional
+ >= es un operador relacional
+ <= es un operador relacional
+ >= es un operador relacional
+ == es un operador relacional
+ != es un operador relacional
+ = es un operador de asignacion
+ [ es un simbolo especial
+ ] es un simbolo especial
+ ( es un simbolo especial
+ ) es un simbolo especial
+ { es un simbolo especial
+ } es un simbolo especial
+ , es un simbolo especial
+ ; es un simbolo especial
+ : es un simbolo especial
+ 'a' es un caracter
+ 'b' es un caracter
+ 'c' es un caracter
+ '1' es un caracter
+octal o7
+octal o
+ " " es una cadena
+ " " es una cadena
+octal o
+octal o
+ " " es una cadena
+octal o
+ " " es una cadena
+ "Puto el Chuy" es una cadena
+ "aldo" es una cadena
+ "Hoy es un buen dia para morir" es una cadena
+ "Hoy estamos a 25 de octubre de 2022" es una cadena
