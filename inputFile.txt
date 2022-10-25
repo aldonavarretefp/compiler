@@ -7,4 +7,5 @@ $$hola $var $var2 $1 $HOLA
 'a' 'b' 'c' '1'
 "ho7la 'mundo" "" "ejemplo no" "valido" """
 "Puto el Chuy" "aldo" "Hoy es un buen dia para morir"
-"Hoy estamos a 25 de octubre de 2022" s
+"Hoy estamos a 25 de octubre de 2022"
+$1

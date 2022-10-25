@@ -39,7 +39,7 @@ simboloespecial \[|\]|\(|\)|\{|\}|\,|\:|\;
 
 int main(int argc, char *argv[]){
         yyin = fopen(argv[1],"r");
-        archSal = fopen("salida.txt","w");
+        archSal = fopen("lex_an_output.txt","w");
         yylex();
         fclose(archSal);
 } 
