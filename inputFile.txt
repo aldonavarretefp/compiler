@@ -1,11 +1,27 @@
-O07 O O0 O7 o7 o0
-$$hola $var $var2 $1 $HOLA
-0 0. 0.1 .1 000.0 00.00000 .
-<= < >= <= >= == !=
-=
-[](){},;:.
-'a' 'b' 'c' '1'
-"ho7la 'mundo" "" "ejemplo no" "valido" """
-"Puto el Chuy" "aldo" "Hoy es un buen dia para morir"
-"Hoy estamos a 25 de octubre de 2022"
-$1
+number main(){
+    number $a = 1;
+    real $b = 2.0;
+    symbol $c = '3';
+    o653 O653
+    repeat(number $i = 0; $i < 10; $i++){
+        step;
+    }
+
+    evaluate($a == $b){
+        big $d = 4;
+        symbol $e = '5';
+
+    }instead{
+        large $d = 6;
+        symbol $e = '7';
+        make{
+            number $f = 8;
+            symbol $g = '9';
+        }loop($a < $b $c == $d $e != $f){
+            step;
+        }
+    }
+
+    throw 0;
+
+}
