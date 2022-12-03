@@ -1,5 +1,6 @@
 %{
 #include <math.h>
+#import "parser.h"
 /* 
 Programa que lee un programa y hace elreconocimiento de identificadores, 
 palabras reservadas y enteros de un lenguaje x
@@ -57,7 +58,7 @@ void writeLexicalError(char* yytext);
 
 saltodelinea    [\n]
 espacio         [ ]
-constecadena    [\"]({let}|{constentera})({let}|{constentera}|{espacio})+[\"]
+constecadena    [\"]({let}|{constentera})({let}|{constentera}|{espacio}|{operarit}|{simboloespecial}|.)+[\"]
 caracter        [']({let}|{constentera}|{espacio})[']
 ident           [\$]({let}|{constentera})+
 constentera     [0-9][0-9]*
@@ -70,6 +71,7 @@ operasig        /=
 operarit        \+|\-|\*|\/|\%|\\|\^
 operadasignacion \=
 simboloespecial \[|\]|\(|\)|\{|\}|\,|\:|\;
+tabulador       [\t]
 palabra         ({let}|{constentera})+
 
 %%
@@ -87,7 +89,9 @@ palabra         ({let}|{constentera})+
 {operadasignacion}      {writeCharToken(8, yytext);}
 {operrel}               {writeIntToken(7, getIdxOpRel(yytext));}
 {palabra}               {writeLexicalError(yytext);}
+{tabulador}             {}   
 .                       {writeLexicalError(yytext);}
+
 
 %%
 

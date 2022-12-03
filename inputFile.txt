@@ -1,27 +1,27 @@
-number main(){
-    number $a = 1;
-    real $b = 2.0;
-    symbol $c = '3';
-    o653 O653
-    repeat(number $i = 0; $i < 10; $i++){
-        step;
-    }
-
-    evaluate($a == $b){
-        big $d = 4;
-        symbol $e = '5';
-
-    }instead{
-        large $d = 6;
-        symbol $e = '7';
-        make{
-            number $f = 8;
-            symbol $g = '9';
-        }loop($a < $b $c == $d $e != $f){
-            step;
-        }
-    }
-
-    throw 0;
-
+symbol  $funUno( )
+{
+    real  $NumReal=27.5, $OtroReal;
+    symbol $cadUno,$cadDos= "Cadena #2";
+    big $numUno=5, $numDos, $num;
+    
+     evaluate($NumReal>=28.5)
+            loop( $numUno<=20) make
+            {
+                  $numUno=$numUno+3\4;
+                  $numDos= (3+$numUno)^2;
+		  evaluate ($numDos> 200)
+                    step;
+                  :
+             }
+             $cadUno= "Una cadena diferente…";
+     :
+     repeat ($num=2;$num<=10; $num=$num+1)
+     {
+            [$funDos($num)]
+     }
+     evaluate ($cadUno==$cadDos)
+            throw("iguales!");
+     instead
+            throw("diferentes!");
+     :
 }
