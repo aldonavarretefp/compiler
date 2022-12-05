@@ -3,766 +3,1067 @@
 #include "parser.h"
 
 char c;
+int counter;
 
-void rechaza()
+void rechaza(int count)
 {
-    printf("rechaza\n");
+    printf("Error sintáctico en átomo número %i: %i\n",count, c);
 }
 
-void OtroArg(){
-    if(c==','){
-        c = getchar();
+void OtroArg()
+{
+    if (c == ',')
+    {
+        c = getchar(); counter++; counter++;
         V();
         OtroArg();
         return;
-    }else if(c==')'){
+    }
+    else if (c == ')')
+    {
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Arg(){
-    if(c==')'){
+void Arg()
+{
+    if (c == ')')
+    {
         return;
-    }else if(c=='i' || c=='r' || c=='n' || c=='s'){
+    }
+    else if (c == 'i' || c == 'r' || c == 'n' || c == 's')
+    {
         V();
         OtroArg();
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Llama(){
-    if(c=='['){
-        c = getchar();
-        if(c=='i'){
-            c = getchar();
-            if(c=='('){
-                c = getchar();
+void Llama()
+{
+    if (c == '[')
+    {
+        c = getchar(); counter++; counter++;
+        if (c == 'i')
+        {
+            c = getchar(); counter++; counter++;
+            if (c == '(')
+            {
+                c = getchar(); counter++;
                 Arg();
-                if(c==')'){
-                    c = getchar();
-                    if(c==']'){
-                        c = getchar();
-                        return;
-                    }else{
-                        rechaza();
+                if (c == ')')
+                {
+                    c = getchar(); counter++;
+                    if (c == ']')
+                    {
+                        c = getchar(); counter++;
                         return;
                     }
-                }else{
-                    rechaza();
+                    else
+                    {
+                        rechaza(counter); 
+                        return;
+                    }
+                }
+                else
+                {
+                    rechaza(counter); 
                     return;
                 }
-            }else{
-                rechaza();
+            }
+            else
+            {
+                rechaza(counter); 
                 return;
             }
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 };
 
-void Valor(){
-    if( c =='i' || c=='r' || c=='n' || c=='s'){  
+void Valor()
+{
+    if (c == 'i' || c == 'r' || c == 'n' || c == 's')
+    {
         V();
         return;
-    }else if(c==')'){
+    }
+    else if (c == ')')
+    {
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Devuelve(){
-    if(c=='z'){
-        c = getchar();
-        if(c=='('){
-            c = getchar();
+void Devuelve()
+{
+    if (c == 'z')
+    {
+        c = getchar(); counter++;
+        if (c == '(')
+        {
+            c = getchar(); counter++;
             Valor();
-            if(c==')'){
-                c = getchar();
-                if(c==';'){
-                    c = getchar();
-                    return;
-                }else{
-                    rechaza();
+            if (c == ')')
+            {
+                c = getchar(); counter++;
+                if (c == ';')
+                {
+                    c = getchar(); counter++;
                     return;
                 }
-            }else{
-                rechaza();
+                else
+                {
+                    rechaza(counter); 
+                    return;
+                }
+            }
+            else
+            {
+                rechaza(counter); 
                 return;
             }
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void U(){
-    if(c=='q'){
-        c = getchar();
+void U()
+{
+    if(counter >55) printf("%c %i\n", c, counter);
+    if (c == 'q')
+    {
+        c = getchar(); counter++;
         return;
-    }else if(c == 'a' || c == '}' || c == 'o'){
+    }
+    else if (c == 'a' || c == '}' || c == 'o')
+    {
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Z(){
-    if(c=='i'){
-        c = getchar();
-        if(c=='='){
-            c = getchar();
+void Z()
+{
+    if(counter >80) printf("Z %c %i\n", c, counter);
+    if (c == 'i')
+    {
+        c = getchar(); counter++;
+        if (c == '=')
+        {
+            c = getchar(); counter++;
             E();
-            if(c==')'){
-                return;
-            }else{
-                rechaza();
+            if (c == ')')
+            {
+                c = getchar(); counter++;
                 return;
             }
-        }else{
-            rechaza();
+            else
+            {
+                rechaza(counter); 
+                return;
+            }
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else if(c==')')
+    {
+        return;
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void H(){
-    if(c=='h'){
-        c = getchar();
-        if(c=='('){
-            c = getchar();
-            if(c=='i'){
-                c = getchar();
-                if (c==')'){
-                    c = getchar();
-                    if(c=='{'){
-                        c = getchar();
+void H()
+{
+    if (c == 'h')
+    {
+        c = getchar(); counter++;
+        if (c == '(')
+        {
+            c = getchar(); counter++;
+            if (c == 'i')
+            {
+                c = getchar(); counter++;
+                if (c == ')')
+                {
+                    c = getchar(); counter++;
+                    if (c == '{')
+                    {
+                        c = getchar(); counter++;
                         CP();
                         OP();
-                        if(c=='}'){
-                            c = getchar();
-                            return;
-                        }else{
-                            rechaza();
+                        if (c == '}')
+                        {
+                            c = getchar(); counter++;
                             return;
                         }
-                    }else{
-                        rechaza();
+                        else
+                        {
+                            rechaza(counter); 
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        rechaza(counter); 
                         return;
                     }
-                }else{
-                    rechaza();
+                }
+                else
+                {
+                    rechaza(counter); 
                     return;
                 }
-            }else{
-                rechaza();
+            }
+            else
+            {
+                rechaza(counter); 
                 return;
             }
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void CP(){
-    if(c=='a'){
-        c = getchar();
-        if(c=='n'){
-            c = getchar();
-            if(c==':'){
-                c = getchar();
+void CP()
+{
+    if (c == 'a')
+    {
+        c = getchar(); counter++;
+        if (c == 'n')
+        {
+            c = getchar(); counter++;
+            if (c == ':')
+            {
+                c = getchar(); counter++;
                 ListaP();
                 U();
                 CP();
                 return;
-            }else{
-                rechaza();
+            }
+            else
+            {
+                rechaza(counter); 
                 return;
             }
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else if(c=='}' || c=='o'){
+    }
+    else if (c == '}' || c == 'o')
+    {
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void OP(){
-    if(c=='o'){
-        c = getchar();
-        if(c==':'){
-            c = getchar();
+void OP()
+{
+    if (c == 'o')
+    {
+        c = getchar(); counter++;
+        if (c == ':')
+        {
+            c = getchar(); counter++;
             ListaP();
+            if(counter >55) printf("OP %c %i\n", c, counter);
             return;
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
     }
-    else if(c=='}'){
-        return;
-    }else{
-        rechaza();
+    else if (c == '}')
+    {
         return;
     }
-    
+    else
+    {
+        rechaza(counter); 
+        return;
+    }
 }
 
-void X(){
-    if(c == 'i' || c == 'n' || c == 'r' || c == 's'){
+void X()
+{   
+    if(counter >80) printf("X %c %i\n", c, counter);
+    if (c == 'i' || c == 'n' || c == 'r' || c == 's')
+    {
         R();
-        return;
-    }else if(c == ';'){
-        c = getchar();
-        return;
-    }
-    else{
-        rechaza();
-        return;
-    }
-}
-
-void Y(){
-    if(c == 'i'){
-        c = getchar();
-        if(c == '='){
-            c = getchar();
-            E();
-            if(c == ';'){
-                c = getchar();
-                return;
-            }
-            else{
-                rechaza();
-                return;
-            }
-        }
-        else{
-            rechaza();
+        if(c==';'){
+            c = getchar(); counter++;
             return;
         }
-    }else if(c == ';'){
-        c = getchar();
         return;
     }
-    else{
-        rechaza();
+    else if (c == ';')
+    {
+        c = getchar(); counter++;
+        return;
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void J(){
-    if(c == 'j'){
-        c = getchar();
-        if( c == '('){
-            c = getchar();
+void Y()
+{
+    if(counter >55) printf("Y %c %i\n", c, counter);
+    if (c == 'i')
+    {
+        c = getchar(); counter++;
+        if (c == '=')
+        {
+            c = getchar(); counter++;
+            E();
+            if (c == ';')
+            {
+                c = getchar(); counter++;
+                return;
+            }
+            else
+            {
+                rechaza(counter); 
+                return;
+            }
+        }
+        else
+        {
+            rechaza(counter); 
+            return;
+        }
+    }
+    else if (c == ';')
+    {
+        c = getchar(); counter++;
+        return;
+    }
+    else
+    {
+        rechaza(counter); 
+        return;
+    }
+}
+
+void J()
+{
+    if (c == 'j')
+    {
+        c = getchar(); counter++;
+        if (c == '(')
+        {
+            c = getchar(); counter++;
             Y();
             X();
             Z();
-            if( c == '{'){
-                c = getchar();
+            if (c == '{')
+            {
+                c = getchar(); counter++;
                 ListaP();
-                if(c == '}'){
-                    c = getchar();
+                if (c == '}')
+                {
+                    c = getchar(); counter++;
                     return;
                 }
-                else{
-                    rechaza();
+                else
+                {
+                    rechaza(counter); 
                     return;
                 }
             }
-            else{
-                rechaza();
+            else
+            {
+                rechaza(counter); 
                 return;
             }
         }
-        else{
-            rechaza();
+        else
+        {
+            rechaza(counter); 
             return;
         }
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void IP(){
-    if( c == 't'){
-        c = getchar();
+void IP()
+{
+    if (c == 't')
+    {
+        c = getchar(); counter++;
         ListaP();
+        if(counter >55) printf("IP %c %i\n", c, counter);
         return;
     }
-    else if(c == ':'){
+    else if (c == ':')
+    {
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void I(){
-    if(c == 'f'){
-        c = getchar();
-        if(c == '('){
-            c = getchar();
+void I()
+{
+    if (c == 'f')
+    {
+        c = getchar(); counter++;
+        if (c == '(')
+        {
+            c = getchar(); counter++;
             R();
-            if(c == ')'){
-                c = getchar();
+            if (c == ')')
+            {
+                c = getchar(); counter++;
                 ListaP();
                 IP();
-                if(c == ':'){
-                    c = getchar();
+                if (c == ':')
+                {
+                    c = getchar(); counter++;
                     return;
                 }
-                else{
-                    rechaza();
+                else
+                {
+                    rechaza(counter); 
                     return;
                 }
             }
-            else{
-                rechaza();
+            else
+            {
+                rechaza(counter); 
                 return;
             }
         }
-        else{
-            rechaza();
+        else
+        {
+            rechaza(counter); 
             return;
         }
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void W(){
-    if(c=='w'){
-        c = getchar();
-        if(c=='('){
-            c = getchar();
+void W()
+{
+    if (c == 'w')
+    {
+        c = getchar(); counter++;
+        if (c == '(')
+        {
+            c = getchar(); counter++;
             R();
-            if(c==')'){
-                c = getchar();
-                if(c=='m'){
-                    c = getchar();
-                    if(c=='{'){
-                        c = getchar();
+            if (c == ')')
+            {
+                c = getchar(); counter++;
+                if (c == 'm')
+                {
+                    c = getchar(); counter++;
+                    if (c == '{')
+                    {
+                        c = getchar(); counter++;
                         ListaP();
-                        if(c == '}'){
-                            c = getchar();
-                            return;
-                        }else{
-                            rechaza();
+                        if (c == '}')
+                        {
+                            c = getchar(); counter++;
                             return;
                         }
-                    }else{
-                        rechaza();
+                        else
+                        {
+                            rechaza(counter); 
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        rechaza(counter); 
                         return;
                     }
-                }else{
-                    rechaza();
+                }
+                else
+                {
+                    rechaza(counter); 
                     return;
                 }
-            }else{
-                rechaza();
+            }
+            else
+            {
+                rechaza(counter); 
                 return;
             }
-        }else{
-            rechaza();
+        }
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void ListaP(){
-    if( c=='}'|| c=='t'|| c==':'|| c=='q'|| c=='a'|| c=='o'){
+void ListaP()
+{
+    if(counter >55) printf("LisP %c %i\n", c, counter);
+    if (c == '}' || c == 't' || c == ':' || c == 'q' || c == 'a' || c == 'o')
+    {
         return;
-    }else if(c=='i' || c=='f' || c=='h' || c=='w' || c=='j' || c=='[' || c=='z' || c=='c'){
+    }
+    else if (c == 'i' || c == 'f' || c == 'h' || c == 'w' || c == 'j' || c == '[' || c == 'z' || c == 'c')
+    {
         P();
         ListaP();
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void P(){
-    if(c=='i'){
+void P()
+{
+    if (c == 'i')
+    {
         A();
-        return;        
-    }else if(c =='f'){
+        return;
+    }
+    else if (c == 'f')
+    {
         I();
-        return;        
-    }else if(c =='h'){
+        return;
+    }
+    else if (c == 'h')
+    {
         H();
         return;
-    }else if(c=='w'){
+    }
+    else if (c == 'w')
+    {
         W();
         return;
-    }else if(c=='j'){
+    }
+    else if (c == 'j')
+    {
         J();
-        return;        
-    }else if(c=='['){
+        return;
+    }
+    else if (c == '[')
+    {
         Llama();
         return;
-    }else if(c=='z'){
+    }
+    else if (c == 'z')
+    {
         Devuelve();
-        return;        
-    }else if(c=='c'){
-        c = getchar();
-        if(c==';'){
-            c = getchar();
+        return;
+    }
+    else if (c == 'c')
+    {
+        c = getchar(); counter++;
+        if (c == ';')
+        {
+            c = getchar(); counter++;
             return;
-        } 
-    }else{
-        rechaza();
+        }
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void VPPP(){
-    if(c == 's' || c == 'i'){
-        c = getchar();
+void VPPP()
+{
+    if (c == 's' || c == 'i')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else{
-        rechaza();
-        return;
-    }
-}
-
-void VPP(){
-    if(c == 'r' || c == 'i'){
-        c = getchar();
-        return;
-    }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void VP(){
-    if(c == 'i' || c == 'n'){
-        c = getchar();
+void VPP()
+{
+    if (c == 'r' || c == 'i')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else{
-        rechaza();
-        return;
-    }
-}
-
-void V(){
-    if(c == 'i' || c == 'n' || c == 'r' || c == 's'){
-        c = getchar();
-        return;
-    }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void RP(){
-    if(c == '<' || c == '>' || c == 'l' || c == 'e' || c == 'd' || c == 'u'){
-        c = getchar();
+void VP()
+{
+    if (c == 'i' || c == 'n')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void R(){
-    if(c == 'i'){
-        c = getchar();
+void V()
+{
+    if(counter >80) printf("V %c %i\n", c, counter);
+    if (c == 'i' || c == 'n' || c == 'r' || c == 's')
+    {
+        c = getchar(); counter++;
+        return;
+    }
+    else
+    {
+        rechaza(counter); 
+        return;
+    }
+}
+
+void RP()
+{
+    if (c == '<' || c == '>' || c == 'l' || c == 'e' || c == 'd' || c == 'u')
+    {
+        c = getchar(); counter++;
+        return;
+    }
+    else
+    {
+        rechaza(counter); 
+        return;
+    }
+}
+
+void R()
+{
+    if(counter >55) printf("R %c %i\n", c, counter);
+    if (c == 'i')
+    {
+        c = getchar(); counter++;
         RP();
         V();
         return;
     }
-    else if(c == 'n'){
-        c = getchar();
+    else if (c == 'n')
+    {
+        c = getchar(); counter++;
         RP();
         VP();
         return;
     }
-    else if(c == 'r'){
-        c = getchar();
+    else if (c == 'r')
+    {
+        c = getchar(); counter++;
         RP();
         VPP();
         return;
     }
-    else if(c == 's'){
-        c = getchar();
+    else if (c == 's')
+    {
+        c = getchar(); counter++;
         RP();
         VPPP();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void F(){
-    if(c == '('){
-        c = getchar();
+void F()
+{
+    if(counter >55) printf("F %c %i\n", c, counter);
+    if (c == '(')
+    {
+        c = getchar(); counter++;
         E();
-        if(c == ')'){
-            c = getchar();
-            return;
-        }else{
-            rechaza();
+        if(counter >55) printf("F %c %i\n", c, counter);
+        if (c == ')')
+        {
+            c = getchar(); counter++;
             return;
         }
-    }else if(c == 'i' || c == 'n' || c == 'r'){
-        c = getchar();
+        else
+        {
+            rechaza(counter); 
+            return;
+        }
+    }
+    else if (c == 'i' || c == 'n' || c == 'r')
+    {
+        c = getchar(); counter++;
         return;
-    }else if(c == '{'){
+    }
+    else if (c == '[')
+    {
         Llama();
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void TP(){
-    if(c == '*' || c == '/' || c == '\\' || c == '%'|| c == '^'){
-        c = getchar();
+void TP()
+{
+    if(counter >55) printf("TP %c %i\n", c, counter);
+    if (c == '*' || c == '/' || c == '\\' || c == '%' || c == '^')
+    {
+        c = getchar(); counter++;
         F();
         TP();
-    }else if(c == '+'|| c == '-'|| c == ';'){
+    }
+    else if (c == '+' || c == '-' || c == ';' || c==')')
+    {
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void T(){
-    if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '['){
+void T()
+{
+    if(counter >55) printf("T %c %i\n", c, counter);
+    if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
+    {
         F();
         TP();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void EP(){
-    if(c == '+' || c == '-'){
+void EP()
+{
+    if(counter >55) printf("EP %c %i\n", c, counter);
+    if (c == '+' || c == '-')
+    {
+        c = getchar(); counter++;
         T();
         EP();
         return;
     }
-    else if(c == ')' || c == ';'){
+    else if (c == ')' || c == ';')
+    {
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void E(){
-    if(c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '['){
+void E()
+{
+    if(counter >85) printf("E %c %i\n", c, counter);
+    if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
+    {
         T();
         EP();
+        printf("E %c %i\n", c, counter);
         return;
-    }
-    else{
-        rechaza();
+    }else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void AP(){
-    if(c == 's'){
-        c = getchar();
+void AP()
+{
+    if(counter >55) printf("AP%c %i\n", c, counter);
+    if (c == 's')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else if(c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '['){
+    else if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
+    {
         E();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void A(){
-    if(c == 'i'){
-        c = getchar();
-        if(c == '='){
-            c = getchar();
-            A();
-            if(c == ';'){
-                c = getchar();
+void A()
+{
+    if (c == 'i')
+    {
+        c = getchar(); counter++;
+        if (c == '=')
+        {
+            c = getchar(); counter++;
+            AP();
+            if (c == ';')
+            {
+                c = getchar(); counter++;
                 return;
             }
-            else{
-                rechaza();
+            else
+            {
+                rechaza(counter); 
                 return;
             }
         }
-        else{
-            rechaza();
+        else
+        {
+            rechaza(counter); 
             return;
         }
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void C(){
-    if(c == ';'){
+void C()
+{
+    if (c == ';')
+    {
         return;
-    }else if(c == ','){
-        c = getchar();
+    }
+    else if (c == ',')
+    {
+        c = getchar(); counter++;
         K();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void N(){
-    if(c == 'n' || c == 'r' || c == 's'){
-        c = getchar();
+void N()
+{
+    if (c == 'n' || c == 'r' || c == 's')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Q(){
-    if(c == ';'){
+void Q()
+{
+    if (c == ';')
+    {
         return;
     }
-    else if(c == '='){
-        c = getchar();
+    else if (c == '=')
+    {
+        c = getchar(); counter++;
         N();
         C();
         return;
-    }else if(c == ','){
+    }
+    else if (c == ',')
+    {
+        c = getchar(); counter++;
         K();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void K(){
-    if(c == 'i'){
-        c = getchar();
+void K()
+{
+    if (c == 'i')
+    {
+        c = getchar(); counter++;
         Q();
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void Tipo(){
-    if(c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x'){
-        c = getchar();
+void Tipo()
+{
+    if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
+    {
+        c = getchar(); counter++;
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
-void D(){
-    if(c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x'){
+void D()
+{
+    if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
+    {
         Tipo();
         K();
-        if (c == ';'){
-            c = getchar();
+        if (c == ';')
+        {
+            c = getchar(); counter++;
             return;
         }
-        else{
-            rechaza();
+        else
+        {
+            rechaza(counter); 
             return;
         }
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
 void Decl()
 {
-    if (c == 'i' || c == 'f' || c == 'h' || c == 'w' || c == 'j' || c == '[' || c == 'z' || c == '}' || c == 'c'){
+    if (c == 'i' || c == 'f' || c == 'h' || c == 'w' || c == 'j' || c == '[' || c == 'z' || c == '}' || c == 'c')
+    {
         return;
-    }else if(c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x'){
+    }
+    else if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
+    {
         D();
         Decl();
         return;
-    }else{
-        rechaza();
+    }
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
 
 void Cuerpo()
 {
-    if (c=='b' || c=='g' || c=='#' || c=='y' || c=='x' || c=='i' || c=='f' || c=='h' || c=='w' || c=='j' || c=='[' || c=='z' || c=='}' || c=='c')
+    if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x' || c == 'i' || c == 'f' || c == 'h' || c == 'w' || c == 'j' || c == '[' || c == 'z' || c == '}' || c == 'c')
     {
         Decl();
         ListaP();
         return;
     }
-    else{
-        rechaza();
+    else
+    {
+        rechaza(counter); 
         return;
     }
 }
@@ -771,7 +1072,7 @@ void Otroparam()
 {
     if (c == ',')
     {
-        c = getchar();
+        c = getchar(); counter++;
         Tipo();
         if (c == 'i')
         {
@@ -780,7 +1081,7 @@ void Otroparam()
         }
         else
         {
-            rechaza();
+            rechaza(counter); 
             return;
         }
         return;
@@ -791,7 +1092,7 @@ void Otroparam()
     }
     else
     {
-        rechaza();
+        rechaza(counter); 
         return;
     }
 }
@@ -804,13 +1105,13 @@ void Otrafunc()
         Otrafunc();
         return;
     }
-    else if (c == 3)
+    else if (c == -1)
     {
         return;
     }
     else
     {
-        rechaza();
+        rechaza(counter); 
         return;
     }
 }
@@ -822,7 +1123,7 @@ void Param()
         Tipo();
         if (c == 'i')
         {
-            c = getchar();
+            c = getchar(); counter++;
             Otroparam();
             return;
         }
@@ -833,69 +1134,71 @@ void Param()
     }
     else
     {
-        rechaza();
+        rechaza(counter); 
         return;
     }
 }
 
 void Func()
 {
+    printf("Func %c %i\n", c, counter);
     if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
     {
         Tipo();
         if (c == 'i')
         {
-            c = getchar();
+            c = getchar(); counter++;
             if (c == '(')
             {
-                c = getchar();
+                c = getchar(); counter++;
                 Param();
                 if (c == ')')
                 {
-                    c = getchar();
+                    c = getchar(); counter++;
                     if (c == '{')
-                    
+
                     {
-                        c = getchar();
+                        c = getchar(); counter++;
                         Cuerpo();
                         if (c == '}')
                         {
-                            c = getchar();
+                            c = getchar(); counter++;
                             return;
                         }
                         else
                         {
-                            rechaza();
+                            rechaza(counter); 
                             return;
                         }
                     }
                     else
                     {
-                        rechaza();
+                        rechaza(counter); 
                         return;
                     }
                 }
                 else
                 {
-                    rechaza();
+                    rechaza(counter); 
                     return;
                 }
             }
             else
             {
-                rechaza();
+                rechaza(counter); 
                 return;
             }
         }
         else
         {
-            rechaza();
+            rechaza(counter); 
             return;
         }
     }
     else
     {
-        rechaza();
+        printf("Error en la linea %d: Se esperaba un tipo de dato\n", counter);
+        rechaza(counter); 
         return;
     }
 }
@@ -910,13 +1213,34 @@ void Program()
     }
     else
     {
-        rechaza();
+        rechaza(counter); 
         return;
     }
 }
 
 void parser()
 {
-    c = getchar();
+    freopen("lex_an_cadena_atomos.out", "r", stdin);
+    freopen("parser.out", "w", stdout);
+    fseek(stdin, 0, 0);
+    c = getchar(); counter++;
+    printf("Program %c %i\n", c, counter); 
     Program();
+    if (c == -1 )
+    {
+        printf("Aceptado!");
+    }
+    else
+    {
+        rechaza(counter); 
+        return;
+    }
+    fclose(stdin);
+    fclose(stdout);
 }
+
+int main(){
+    parser();
+    return 0;
+}
+

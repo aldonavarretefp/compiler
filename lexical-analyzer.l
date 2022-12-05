@@ -28,16 +28,18 @@ typedef struct {
 const int LENGTHPALRES = 17, LENGTHOPREL = 6;
 
 /* Apuntadores para archivo de salida y registros */
-FILE *archSal, *archReg;
+FILE *archSal, *archReg, *archCadenaAtomos;
 
 /* Arreglos dinámico de tamaño inicial 100 para tabla de símbolos, tabla de literales y tabla de reales. */
 ident *tablaSimbolos;
 float *tablaReales;
 char **tablaCadena;
-char *tablaPalRes[LENGTHPALRES] = {"alternative", "big", "evaluate", "instead", "large", "loop", "make", "number", "other", "real", "repeat", "select", "small", "step", "stop", "symbol", "throw"};
-char *tablaOpRel[LENGTHOPREL] = {"<",">","<=",">=","==","!="};
+char *tablaPalRes[] = {"alternative", "big", "evaluate", "instead", "large", "loop", "make", "number", "other", "real", "repeat", "select", "small", "step", "stop", "symbol", "throw"};
+char tablaPalResAtomos[] = {'a', 'b', 'f', 't', 'g', 'w', 'm', '#', 'o', 'x', 'j', 'h', 'p', 'c', 'q', 'y', 'z'};
+char *tablaOpRel[] = {"<",">","<=",">=","==","!="};
+char tablaOpRelAtomo[] = {'<','>','l','u','e','d'};
 int ptrTS = 0, ptrTL = 0, ptrTR = 0;
-int lengthTS = 100, lengthTL = 2, lengthTR = 100;
+int lengthTS = 100, lengthTL = 10, lengthTR = 100;
 
 /* Prototipos de funciones */
 void addToChainTable(char* yytext);
@@ -58,7 +60,7 @@ void writeLexicalError(char* yytext);
 
 saltodelinea    [\n]
 espacio         [ ]
-constecadena    [\"]({let}|{constentera})({let}|{constentera}|{espacio}|{operarit}|{simboloespecial}|.)+[\"]
+constecadena    (\"[^"'\n][^"'\n]+\")|('[^'\n]')|(\"'\")
 caracter        [']({let}|{constentera}|{espacio})[']
 ident           [\$]({let}|{constentera})+
 constentera     [0-9][0-9]*
@@ -88,9 +90,9 @@ palabra         ({let}|{constentera})+
 {operarit}              {writeCharToken(6,yytext);}
 {operadasignacion}      {writeCharToken(8, yytext);}
 {operrel}               {writeIntToken(7, getIdxOpRel(yytext));}
-{palabra}               {writeLexicalError(yytext);}
 {tabulador}             {}   
-.                       {writeLexicalError(yytext);}
+{palabra}               {writeLexicalError(yytext);}
+
 
 
 %%
@@ -104,7 +106,16 @@ void addToChainTable(char* yytext){
                 lengthTL *= 2;
                 tablaCadena = realloc(tablaCadena, sizeof(char*) * lengthTL);
         }
+        printf("Agregando a tabla de cadena: %s\n", c);
         tablaCadena[ptrTL] = c;
+        int size = strlen(c);
+        printf("Size: %d\n", size);
+
+        //imprimir valores de tabla de cadena
+        for(int i = 0; i < ptrTL; i++){
+                printf("%i: %s\n",i, tablaCadena[i]);
+        }
+
         ptrTL++;
 }
 
@@ -189,6 +200,8 @@ int getIdxOpRel(char * yytext) {
 void printTablaCadena(){
         printf("*** Tabla de Cadenas ***\n-------------------------\n");
         for(int i = 0; i < ptrTL; i++){
+                printf("%s\n", tablaCadena[i]);
+                printf("size: %d\n", strlen(tablaCadena[i]));
                 printf("%6d | %s\n",i, tablaCadena[i]);
         }
         printf("\n");
@@ -221,11 +234,34 @@ void writeLexicalError(char* yytext) {
 
 /* Función para poner el token en el archivo de salida*/
 void writeCharToken(int class, char* c) {
+        fprintf(archCadenaAtomos,"%s",c);
         fprintf(archSal, "(%d,'%s')\n",class,c);
 }
 
 /* Función para poner el token en el archivo de salida*/
 void writeIntToken(int class, int i) {
+        switch(class){
+                case 0:
+                        fprintf(archCadenaAtomos,"%c", tablaPalResAtomos[i]);
+                        break;
+                case 1:
+                        fprintf(archCadenaAtomos,"i");
+                        break;
+                case 2:
+                        fprintf(archCadenaAtomos,"n");
+                        break;
+                case 3:
+                        fprintf(archCadenaAtomos,"r");
+                        break;
+                case 4:
+                        fprintf(archCadenaAtomos,"s");
+                        break;  
+                case 7:
+                        fprintf(archCadenaAtomos,"%c", tablaOpRelAtomo[i]);
+                        break;
+                default:
+                        break;
+        }
         fprintf(archSal,"(%d,%d)\n",class,i);
 }
 
@@ -239,6 +275,7 @@ int main(int argc, char *argv[]){
         yyin = fopen(argv[1],"r");
         archSal = fopen("lex_an_output.txt","w");
         archReg = fopen("lex_an_reg.txt","w");
+        archCadenaAtomos = fopen("lex_an_cadena_atomos.out","w");
 
 
         tablaSimbolos = (ident *)malloc(100*sizeof(ident));                      
@@ -246,6 +283,7 @@ int main(int argc, char *argv[]){
         tablaCadena   = (char **)malloc(lengthTL*sizeof(char *));
 
         yylex();
+        printf("size of char %d\n", sizeof(char *));
 
         printTablaCadena();
         printTablaSimbolos();
