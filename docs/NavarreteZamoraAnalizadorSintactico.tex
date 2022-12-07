@@ -155,6 +155,7 @@ ASIGNATURA \\
 
 % --- Objetivos
 \section{Objetivos}
+
 Construir, en un mismo programa, los analizadores Léxico y Sintáctico Descendente Recursivo que revisen programas escritos en el lenguaje definido por la gramática definida en la clase.
 
 % --- Descripción
@@ -168,27 +169,54 @@ Un compilador se compone de tres analizadores principalmente:
   \item \textbf{El analizador semántico}, que utiliza la información en la tabla de símbolos para comprobar la consistencia semántica del programa fuente con la definición del lenguaje. También recopila información sobre el tipo y la guarda en la tabla de símbolos, para usarla más tarde durante la generación de código intermedio.
 \end{enumerate}
 
-\textbf{El analizador sintáctico} será el discutido y documentado en este archivo y realizado en este segundo proyecto de la materia de compiladores. Este analizador sintáctico se desarrollará en un archivo distinto al del analizador léxico.
+\textbf{El analizador sintáctico} será el discutido y documentado en este archivo y realizado en este segundo proyecto de la materia de compiladores. Este analizador sintáctico se desarrollará en un archivo distinto al del analizador léxico. El analizador léxico será el encargado de generar la cadena de átomos y los tokens, los cuales serán utilizados por el analizador sintáctico para realizar la verificación de la sintaxis del programa. Estos se describirán en breve debido a que primero debemos aclarar qué modificaciones se hicieron al programa del analizador léxico.
 
 \subsection{Modificaciones al analizador léxico}
 Para este proyecto, partimos de la salida que nos generará el analizador léxico una vez procesada la información del archivo de entrada.
 
-Dicho analizador léxico generará las tablas de símbolos y literales, así como los tokens que se transferirán al analizador sintáctico. Este analizador léxico será realizado en lex, LEX es un generador de programas diseñado para procesamiento léxico de flujo de entrada y salida de caracteres. Pero, este analizador tiene algunas restricciones, como por ejemplo:\par
-En este documento se describe el problema para afrontar dentro del desarrollo del software que corresponde al analizador sintáctico.
+Dicho analizador léxico generará las tablas de símbolos y literales, este archivo el cuál contiene al analizador léxico \textbf{importará al parser o analizador sintáctico } mediante un header creado para que este pueda hacer uso de la información que se generó en el analizador léxico tales como la tabla de literales o cadenas, la tabla de símbolos, los tokens y la cadena de átomos.
 
-El número de clase es \textbf{inamovible}. 
+\textbf{La cadena de átomos} es generada por el analizador léxico en un archivo distinto llamado 'lex\_an\_cadena\_de\_atomos.out' y es la que se utilizará para realizar la verificación de la sintaxis del programa. Dentro del analizador léxico se agrega una sentencia switch case, para poder definir el átomo dependiendo la clase asociada a cada uno de los tokens. Esto es de suma importancia porque una vez definidos los tokens y la cadena de átomos el compilador puede continuar con su análisis.
 
-Además, el analizador léxico tendrá como entrada un archivo con el programa fuente, el cual se indicará desde la línea de comandos al momento de mandar a ejecutar el analizador léxico.
+\subsection{Descripción del analizador sintáctico o solución del problema}
 
-Como delimitador de un componente léxico será uno o vario
+Finalmente, para solucionar el problema o realizar este analizador, definimos un archivo \texttt{.c} aparte para implementar cada una de las funciones para crear el analizador descendente recursivo, estas funciones llevan condiciones dentro de ellas para poder reconocer la sintaxis del programa y cada una de estas funciones llama recursivamente a las otras encargadas de analizar el lenguaje guíandose de nuestra gramática. Existe una función por cada no terminal aparecido en la gramática descrita más adelante en este documento. \\
+Para poder realizar este analizador, se importó el archivo \texttt{.h} que contiene las funciones del analizador léxico, una vez importado, simplemente llamamos a la función \texttt{parser()} que se encarga de llamar a las demás funciones que se encargan de reconocer la sintaxis del programa. 
+
+Esta función del parser, primeramente abrirá el archivo en el cual se guardó la cadena de átomos mediante la función de C \texttt{fopen()} y posteriormente se llamará a la función \texttt{programa()} que se encarga de reconocer la sintaxis del programa. Esta función \texttt{programa()} se encarga de llamar a las demás funciones que se encargan de reconocer la sintaxis del programa de manera \textbf{recursiva}.
+
+En cada llamada recursiva del programa, se hacen algunas validaciones de caracteres tal y como se enseño en teoría el funcionamiento del analizador, en caso de que el archivo de entrada tuviese algún error sintáctico, el programa se detendrá y se mostrará un mensaje de error. Este error nos mencionará en dónde está ubicado el error, es decir, en qué átomo fué encontrado el error y qué caracter se esperaba en ese átomo.
+
+En caso de que el programa no tuviese ningún error, se mostrará un mensaje de éxito \texttt{'SYNTAX SUCCESS'} indicando que el programa no tuvo ningún error sintáctico y cerrando el archivo de entrada.
+
+Finalmente, en consola observamos una salida con cada una de las tablas asociadas al analizador sintáctico.
 
 
 \begin{figure}[htpb!]
-\centering
-  \includegraphics[width=\textwidth]{catalogos.png}
-\caption{Catálogos para las palabras reservadas y los operadores relacionales.}
+  \centering
+    \includegraphics[height=8cm]{run32.png}
+  \caption{Salida en consola del analizador léxico.}
+  \end{figure}\par
+
+\newpage
+
+\subsection{Descripción del lenguaje o gramática}
+
+El lenguaje que describe la grámatica se enlistará mediante las producciones de los elementos no terminales de la siguiente tabla.
+
+\begin{figure}[htpb!]
+  \centering
+    \includegraphics[width=\textwidth]{gram.png}
+  \caption{Tabla descriptiva del lenguaje (Gramática del lenguaje) definido en clase.}
 \end{figure}\par
 
+\newpage
+
+\begin{figure}[htpb!]
+  \centering
+    \includegraphics[width=\textwidth]{gram2.png}
+  \caption{Tabla descriptiva del lenguaje (Gramática del lenguaje) definido en clase.}
+\end{figure}\par
 
 %---- Propuesta de solución
 \section{Conjuntos de selección para cada producción}
@@ -260,18 +288,28 @@ Para correr el programa, debemos tener instalado flex en nuestro equipo y seguir
     \item Abrir en una ventana de terminal la carpeta donde se encuentran todos los archivos.
     \item Una vez dentro de la carpeta correremos el comando \texttt{flex lexical-analyzer.l}
     \item \texttt{gcc lex.yy.c -ly -ll -o lexical-analyzer.out} para compilarlo mediante gcc y tener un archivo de salida ejecutable para un entorno LINUX.
-    \item Finalmente, \texttt{./lexical-analyzer.out inputFile.txt} es importante destacar que, el archivo \textit{inputFile.txt} es el archivo de entrada, \textbf{en caso de no teclear ningún archivo de entrada el programa puede manejar este tipo de problema mandando un mensaje de que es necesaria esa entrada por consola.}
+    \item Finalmente, \texttt{./lexical-analyzer.out input/inputFile.txt} es importante destacar que, el archivo \textit{inputFile.txt} es el archivo de entrada, \textbf{en caso de no teclear ningún archivo de entrada el programa puede manejar este tipo de problema mandando un mensaje de que es necesaria esa entrada por consola.}
 \end{enumerate}
 
-Una vez ejecutados los pasos anteriores, podrémos observar \textbf{dos archivos de texto para la salida:}
+Una vez ejecutados los pasos anteriores, podrémos observar \textbf{en la carpeta output algunos archivos de salida:}
 \begin{enumerate}
     \item El archivo de texto para la generación de los tokens.
     \item El archivo de texto para la la impresión de errores léxicos.
+    \item El archivo de salida del parser, el cual nos dirá si el archivo de entrada es aceptado o no por el lenguaje mediante la evaluación del analizador sintáctico descendente recursivo.
+    \item El archivo de cadena de átomos, el cual nos dirá la cadena de átomos que se generó a partir del archivo de entrada y del cuál obtendrá entrada el analizador sintáctico.
 \end{enumerate}
 
-Este último archivo reportará qué expresiones regulares no están definidas por el lenguaje desarrollado.
+A continuación represento la ejecución de dichos comandos en la terminal.
+
+\begin{figure}[htpb!]
+  \centering
+    \includegraphics[height=10cm]{run.png}
+  \caption{Tabla descriptiva de átomo para cada palabra reservada en nuestro lenguaje.}
+\end{figure}\par
 
 \section{Conclusiones}
-\chapterprecishere{"Hola"}
-"\par\raggedleft--- \textup{\textbf{Navarrete Zamora Aldo Yael}}, Estudiante de Ingeniería en Computación}
+\chapterprecishere{``
+En el proyecto realizado esta vez, el analizador sintáctico leyó correctamente algunos archivos personales de entrada así como el archivo proporcionado por la profesora Laura a través de la plataforma de Chamilo, dentro del analizador léxico se genera la cadena de átomos, la cual fue un requisito para este proyecto debido a que este analizador realizado necesitaba o hacía uso de dicha cadena de átomos.\\ Tuve complicaciones al momento de abrir un archivo para lectura en el parser o analizador sintáctico, debido a que en el analizador léxico ya lo había abierto para su lectura, entonces me vi en la necesidad de buscar documentación oficial para ver cómo podía solucionar el problema de volver a poner el apuntador del buffer al inicio de dicho archivo. \\ Concluyo que el analizador sintáctico fue desarrollado de forma correcta en este proyecto, cumple con las características comentadas por la profesora, y además, fueron corregidos algunos errores/observaciones hechas por la profesora para el analizador léxico, entre ellas, la lectura de las cadenas. Me pareció muy buena implementación la escritura en otro archivo de salida para la cadena de átomos, esto resulta muy fácil debido a que cada salida está modularizada.
+``}
+\par\raggedleft--- \textup{\textbf{Navarrete Zamora Aldo Yael}}, Estudiante de Ingeniería en Computación}
 \end{document}
