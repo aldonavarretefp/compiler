@@ -5,11 +5,11 @@
 char c;
 int counter;
 
-FILE * archAtomos;
+FILE * archAtomos, *archSalida;
 
 void rechaza(int count)
 {
-    printf("SYNTAX ERROR: ATOMO -> %i CHAR -> %i\n", count, c);
+    fprintf(archSalida,"SYNTAX ERROR: ATOMO -> %i CHAR -> %i\n", count, c);
 }
 
 void OtroArg()
@@ -30,7 +30,7 @@ void OtroArg()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ',' o ')'\n");
+        fprintf(archSalida,"Se esperaba el caracter ',' o ')'\n");
         return;
     }
 }
@@ -50,7 +50,7 @@ void Arg()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ')' o 'i' o 'r' o 'n' o 's'\n");
+        fprintf(archSalida,"Se esperaba el caracter ')' o 'i' o 'r' o 'n' o 's'\n");
         return;
     }
 }
@@ -85,35 +85,35 @@ void Llama()
                     else
                     {
                         rechaza(counter);
-                        printf("Se esperaba el caracter ']'\n");
+                        fprintf(archSalida,"Se esperaba el caracter ']'\n");
                         return;
                     }
                 }
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter ')'\n");
+                    fprintf(archSalida,"Se esperaba el caracter ')'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter '('\n");
+                fprintf(archSalida,"Se esperaba el caracter '('\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter 'i'\n");
+            fprintf(archSalida,"Se esperaba el caracter 'i'\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '['\n");
+        fprintf(archSalida,"Se esperaba el caracter '['\n");
         return;
     }
 };
@@ -132,7 +132,7 @@ void Valor()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'r' o 'n' o 's' o ')'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'r' o 'n' o 's' o ')'\n");
         return;
     }
 }
@@ -161,28 +161,28 @@ void Devuelve()
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter ';'\n");
+                    fprintf(archSalida,"Se esperaba el caracter ';'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ')'\n");
+                fprintf(archSalida,"Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '('\n");
+            fprintf(archSalida,"Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'z'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'z'\n");
         return;
     }
 }
@@ -202,7 +202,7 @@ void U()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'q' o 'a' o '}' o 'o'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'q' o 'a' o '}' o 'o'\n");
         return;
     }
 }
@@ -227,14 +227,14 @@ void Z()
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ')'");
+                fprintf(archSalida,"Se esperaba el caracter ')'");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '='");
+            fprintf(archSalida,"Se esperaba el caracter '='");
             return;
         }
     }
@@ -245,7 +245,7 @@ void Z()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o ')'");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o ')'");
         return;
     }
 }
@@ -283,42 +283,42 @@ void H()
                         else
                         {
                             rechaza(counter);
-                            printf("Se esperaba el caracter ");
+                            fprintf(archSalida,"Se esperaba el caracter ");
                             return;
                         }
                     }
                     else
                     {
                         rechaza(counter);
-                        printf("Se esperaba el caracter ");
+                        fprintf(archSalida,"Se esperaba el caracter ");
                         return;
                     }
                 }
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter ");
+                    fprintf(archSalida,"Se esperaba el caracter ");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ");
+                fprintf(archSalida,"Se esperaba el caracter ");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter ");
+            fprintf(archSalida,"Se esperaba el caracter ");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ");
+        fprintf(archSalida,"Se esperaba el caracter ");
         return;
     }
 }
@@ -345,14 +345,14 @@ void CP()
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ");
+                fprintf(archSalida,"Se esperaba el caracter ");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter ");
+            fprintf(archSalida,"Se esperaba el caracter ");
             return;
         }
     }
@@ -363,7 +363,7 @@ void CP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ");
+        fprintf(archSalida,"Se esperaba el caracter ");
         return;
     }
 }
@@ -384,7 +384,7 @@ void OP()
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter ':'\n");
+            fprintf(archSalida,"Se esperaba el caracter ':'\n");
             return;
         }
     }
@@ -395,7 +395,7 @@ void OP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '}'\n");
+        fprintf(archSalida,"Se esperaba el caracter '}'\n");
         return;
     }
 }
@@ -422,7 +422,7 @@ void X()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'n' o 'r' o 's' o ';'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'n' o 'r' o 's' o ';'\n");
         return;
     }
 }
@@ -447,14 +447,14 @@ void Y()
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ';'\n");
+                fprintf(archSalida,"Se esperaba el caracter ';'\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '='\n");
+            fprintf(archSalida,"Se esperaba el caracter '='\n");
             return;
         }
     }
@@ -467,7 +467,7 @@ void Y()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o ';'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o ';'\n");
         return;
     }
 }
@@ -499,28 +499,28 @@ void J()
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter '}'\n");
+                    fprintf(archSalida,"Se esperaba el caracter '}'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter '{'\n");
+                fprintf(archSalida,"Se esperaba el caracter '{'\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '('\n");
+            fprintf(archSalida,"Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'j'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'j'\n");
         return;
     }
 }
@@ -541,7 +541,7 @@ void IP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 't' o ':'\n");
+        fprintf(archSalida,"Se esperaba el caracter 't' o ':'\n");
         return;
     }
 }
@@ -572,28 +572,28 @@ void I()
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter ':'\n");
+                    fprintf(archSalida,"Se esperaba el caracter ':'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ')'\n");
+                fprintf(archSalida,"Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '('\n");
+            fprintf(archSalida,"Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ");
+        fprintf(archSalida,"Se esperaba el caracter ");
         return;
     }
 }
@@ -631,42 +631,42 @@ void W()
                         else
                         {
                             rechaza(counter);
-                            printf("Se esperaba el caracter '}'\n");
+                            fprintf(archSalida,"Se esperaba el caracter '}'\n");
                             return;
                         }
                     }
                     else
                     {
                         rechaza(counter);
-                        printf("Se esperaba el caracter '{'\n");
+                        fprintf(archSalida,"Se esperaba el caracter '{'\n");
                         return;
                     }
                 }
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter 'm'\n");
+                    fprintf(archSalida,"Se esperaba el caracter 'm'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ')'\n");
+                fprintf(archSalida,"Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '('\n");
+            fprintf(archSalida,"Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'w'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'w'\n");
         return;
     }
 }
@@ -685,7 +685,7 @@ void ListaP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c' o '}' o 't' o ':' o 'q' o 'a' o 'o'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c' o '}' o 't' o ':' o 'q' o 'a' o 'o'\n");
         return;
     }
 }
@@ -741,7 +741,7 @@ void P()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c'\n");
         return;
     }
 }
@@ -757,7 +757,7 @@ void VPPP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 's' o 'i' \n");
+        fprintf(archSalida,"Se esperaba el caracter 's' o 'i' \n");
         return;
     }
 }
@@ -773,7 +773,7 @@ void VPP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'r' o 'i' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'r' o 'i' \n");
         return;
     }
 }
@@ -789,7 +789,7 @@ void VP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'n' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'n' \n");
         return;
     }
 }
@@ -805,7 +805,7 @@ void V()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'n' o 'r' 's' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'n' o 'r' 's' \n");
         return;
     }
 }
@@ -821,7 +821,7 @@ void RP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '<' o '>' o 'l' o 'e' o 'd' o 'u' \n");
+        fprintf(archSalida,"Se esperaba el caracter '<' o '>' o 'l' o 'e' o 'd' o 'u' \n");
         return;
     }
 }
@@ -863,7 +863,7 @@ void R()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'n' o 'r' o 's' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'n' o 'r' o 's' \n");
         return;
     }
 }
@@ -884,7 +884,7 @@ void F()
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter ')' \n");
+            fprintf(archSalida,"Se esperaba el caracter ')' \n");
             return;
         }
     }
@@ -902,7 +902,7 @@ void F()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'n' o 'r' o '(' o '[' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'n' o 'r' o '(' o '[' \n");
         return;
     }
 }
@@ -923,7 +923,7 @@ void TP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '*' o '/' o '\\' o '%%' o '^' o '+' o '-' o ';' o ')' \n");
+        fprintf(archSalida,"Se esperaba el caracter '*' o '/' o '\\' o '%%' o '^' o '+' o '-' o ';' o ')' \n");
         return;
     }
 }
@@ -939,7 +939,7 @@ void T()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
+        fprintf(archSalida,"Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
@@ -961,7 +961,7 @@ void EP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '+' o '-' o ')' o ';' \n");
+        fprintf(archSalida,"Se esperaba el caracter '+' o '-' o ')' o ';' \n");
         return;
     }
 }
@@ -977,7 +977,7 @@ void E()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
+        fprintf(archSalida,"Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
@@ -998,7 +998,7 @@ void AP()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 's' o '(' o 'i' o 'n' o 'r' o '[' \n");
+        fprintf(archSalida,"Se esperaba el caracter 's' o '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
@@ -1023,21 +1023,21 @@ void A()
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter ';' \n");
+                fprintf(archSalida,"Se esperaba el caracter ';' \n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter '=' \n");
+            fprintf(archSalida,"Se esperaba el caracter '=' \n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' \n");
         return;
     }
 }
@@ -1058,7 +1058,7 @@ void C()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ';' o ',' \n");
+        fprintf(archSalida,"Se esperaba el caracter ';' o ',' \n");
         return;
     }
 }
@@ -1074,7 +1074,7 @@ void N()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'n' o 'r' o 's' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'n' o 'r' o 's' \n");
         return;
     }
 }
@@ -1103,7 +1103,7 @@ void Q()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ';' o '=' o ',' \n");
+        fprintf(archSalida,"Se esperaba el caracter ';' o '=' o ',' \n");
         return;
     }
 }
@@ -1120,7 +1120,7 @@ void K()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' \n");
         return;
     }
 }
@@ -1136,7 +1136,7 @@ void Tipo()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1156,14 +1156,14 @@ void D()
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter ';' \n");
+            fprintf(archSalida,"Se esperaba el caracter ';' \n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1183,7 +1183,7 @@ void Decl()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' o 'b' o 'g' o '#' o 'y' o 'x' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' o 'b' o 'g' o '#' o 'y' o 'x' \n");
         return;
     }
 }
@@ -1199,7 +1199,7 @@ void Cuerpo()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' \n");
         return;
     }
 }
@@ -1219,7 +1219,7 @@ void Otroparam()
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter 'i' \n");
+            fprintf(archSalida,"Se esperaba el caracter 'i' \n");
             return;
         }
         return;
@@ -1231,7 +1231,7 @@ void Otroparam()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter ',' o ')' \n");
+        fprintf(archSalida,"Se esperaba el caracter ',' o ')' \n");
         return;
     }
 }
@@ -1251,7 +1251,7 @@ void Otrafunc()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1269,7 +1269,7 @@ void Param()
             return;
         }else{
             rechaza(counter);
-            printf("Se esperaba el caracter 'i'\n");
+            fprintf(archSalida,"Se esperaba el caracter 'i'\n");
             return;
         }
     }
@@ -1280,7 +1280,7 @@ void Param()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o ')' \n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o ')' \n");
         return;
     }
 }
@@ -1318,42 +1318,42 @@ void Func()
                         else
                         {
                             rechaza(counter);
-                            printf("Se esperaba el caracter '}'\n");
+                            fprintf(archSalida,"Se esperaba el caracter '}'\n");
                             return;
                         }
                     }
                     else
                     {
                         rechaza(counter);
-                        printf("Se esperaba el caracter '{' \n");
+                        fprintf(archSalida,"Se esperaba el caracter '{' \n");
                         return;
                     }
                 }
                 else
                 {
                     rechaza(counter);
-                    printf("Se esperaba el caracter ')'\n");
+                    fprintf(archSalida,"Se esperaba el caracter ')'\n");
                     return;
                 }
             }
             else
             {
                 rechaza(counter);
-                printf("Se esperaba el caracter '('\n");
+                fprintf(archSalida,"Se esperaba el caracter '('\n");
                 return;
             }
         }
         else
         {
             rechaza(counter);
-            printf("Se esperaba el caracter 'i'\n");
+            fprintf(archSalida,"Se esperaba el caracter 'i'\n");
             return;
         }
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1369,34 +1369,30 @@ void Program()
     else
     {
         rechaza(counter);
-        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
+        fprintf(archSalida,"Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
 
-void parser(FILE *arch)
+void parser()
 {
-    //freopen("output/lex_an_cadena_atomos.out", "r", stdin);
-    archAtomos = arch;
-    freopen("output/parser.out", "w", stdout);
-    c = fgetc(archAtomos);
-    //set buffer at the beginning of the file
-    fpos_t pos;
-    printf("pos: %d\n",fgetpos(archAtomos, &pos));
+    archAtomos = fopen("output/lex_an_cadena_atomos.out", "r");
+    archSalida = fopen("output/parser.out", "w");
+    // fseek(archAtomos, 0, SEEK_SET);
+    
     counter++;
+    c = fgetc(archAtomos);
     Program();
     if (c == -1)
     {
-        printf("Programa sintácticamente correcto!");
-        printf("counter: %d\n", counter);
+        fprintf(archSalida, "SYNTAX SUCCESS!\n");
     }
     else
     {
         rechaza(counter);
-        printf("Se esperaba el fin de cadena \n");
+        fprintf(archSalida, "Se esperaba el fin de cadena \n");
         return;
     }
-    fclose(stdin);
-    fclose(stdout);
+    fclose(archAtomos);
+    fclose(archSalida);
 }
-

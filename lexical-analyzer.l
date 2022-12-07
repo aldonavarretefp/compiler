@@ -275,8 +275,9 @@ int main(int argc, char *argv[]){
         printTablaCadena();
         printTablaSimbolos();
         printTablaReales();
+        fclose(archCadenaAtomos);
 
-        parser(archCadenaAtomos);
+        parser();
 
         free(tablaSimbolos);
         free(tablaReales);
@@ -284,4 +285,5 @@ int main(int argc, char *argv[]){
         fclose(yyin);
         fclose(archSal);
         fclose(archReg);
+        fclose(archCadenaAtomos);
 } 
