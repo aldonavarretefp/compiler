@@ -5,16 +5,20 @@
 char c;
 int counter;
 
+FILE * archAtomos;
+
 void rechaza(int count)
 {
-    printf("Error sintáctico en átomo número %i: %i\n",count, c);
+    printf("SYNTAX ERROR: ATOMO -> %i CHAR -> %i\n", count, c);
 }
 
 void OtroArg()
 {
     if (c == ',')
     {
-        c = getchar(); counter++; counter++;
+        c = fgetc(archAtomos);
+        counter++;
+        counter++;
         V();
         OtroArg();
         return;
@@ -25,7 +29,8 @@ void OtroArg()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ',' o ')'\n");
         return;
     }
 }
@@ -44,7 +49,8 @@ void Arg()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ')' o 'i' o 'r' o 'n' o 's'\n");
         return;
     }
 }
@@ -53,49 +59,61 @@ void Llama()
 {
     if (c == '[')
     {
-        c = getchar(); counter++; counter++;
+        c = fgetc(archAtomos);
+        counter++;
+        counter++;
         if (c == 'i')
         {
-            c = getchar(); counter++; counter++;
+            c = fgetc(archAtomos);
+            counter++;
+            counter++;
             if (c == '(')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 Arg();
                 if (c == ')')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     if (c == ']')
                     {
-                        c = getchar(); counter++;
+                        c = fgetc(archAtomos);
+                        counter++;
                         return;
                     }
                     else
                     {
-                        rechaza(counter); 
+                        rechaza(counter);
+                        printf("Se esperaba el caracter ']'\n");
                         return;
                     }
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter ')'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter '('\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter 'i'\n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '['\n");
         return;
     }
 };
@@ -113,7 +131,8 @@ void Valor()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'r' o 'n' o 's' o ')'\n");
         return;
     }
 }
@@ -122,50 +141,58 @@ void Devuelve()
 {
     if (c == 'z')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '(')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             Valor();
             if (c == ')')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 if (c == ';')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     return;
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter ';'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'z'\n");
         return;
     }
 }
 
 void U()
 {
-    if(counter >55) printf("%c %i\n", c, counter);
     if (c == 'q')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else if (c == 'a' || c == '}' || c == 'o')
@@ -174,45 +201,51 @@ void U()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'q' o 'a' o '}' o 'o'\n");
         return;
     }
 }
 
 void Z()
 {
-    if(counter >80) printf("Z %c %i\n", c, counter);
     if (c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '=')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             E();
             if (c == ')')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 return;
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ')'");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '='");
             return;
         }
     }
-    else if(c==')')
+    else if (c == ')')
     {
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o ')'");
         return;
     }
 }
@@ -221,59 +254,71 @@ void H()
 {
     if (c == 'h')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '(')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             if (c == 'i')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 if (c == ')')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     if (c == '{')
                     {
-                        c = getchar(); counter++;
+                        c = fgetc(archAtomos);
+                        counter++;
                         CP();
                         OP();
                         if (c == '}')
                         {
-                            c = getchar(); counter++;
+                            c = fgetc(archAtomos);
+                            counter++;
                             return;
                         }
                         else
                         {
-                            rechaza(counter); 
+                            rechaza(counter);
+                            printf("Se esperaba el caracter ");
                             return;
                         }
                     }
                     else
                     {
-                        rechaza(counter); 
+                        rechaza(counter);
+                        printf("Se esperaba el caracter ");
                         return;
                     }
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter ");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter ");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ");
         return;
     }
 }
@@ -282,13 +327,16 @@ void CP()
 {
     if (c == 'a')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == 'n')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             if (c == ':')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 ListaP();
                 U();
                 CP();
@@ -296,13 +344,15 @@ void CP()
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter ");
             return;
         }
     }
@@ -312,7 +362,8 @@ void CP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ");
         return;
     }
 }
@@ -321,17 +372,19 @@ void OP()
 {
     if (c == 'o')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == ':')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             ListaP();
-            if(counter >55) printf("OP %c %i\n", c, counter);
             return;
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter ':'\n");
             return;
         }
     }
@@ -341,70 +394,80 @@ void OP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '}'\n");
         return;
     }
 }
 
 void X()
-{   
-    if(counter >80) printf("X %c %i\n", c, counter);
+{
     if (c == 'i' || c == 'n' || c == 'r' || c == 's')
     {
         R();
-        if(c==';'){
-            c = getchar(); counter++;
+        if (c == ';')
+        {
+            c = fgetc(archAtomos);
+            counter++;
             return;
         }
         return;
     }
     else if (c == ';')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'n' o 'r' o 's' o ';'\n");
         return;
     }
 }
 
 void Y()
 {
-    if(counter >55) printf("Y %c %i\n", c, counter);
     if (c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '=')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             E();
             if (c == ';')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 return;
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ';'\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '='\n");
             return;
         }
     }
     else if (c == ';')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o ';'\n");
         return;
     }
 }
@@ -413,43 +476,51 @@ void J()
 {
     if (c == 'j')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '(')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             Y();
             X();
             Z();
             if (c == '{')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 ListaP();
                 if (c == '}')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     return;
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter '}'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter '{'\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'j'\n");
         return;
     }
 }
@@ -458,9 +529,9 @@ void IP()
 {
     if (c == 't')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         ListaP();
-        if(counter >55) printf("IP %c %i\n", c, counter);
         return;
     }
     else if (c == ':')
@@ -469,7 +540,8 @@ void IP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 't' o ':'\n");
         return;
     }
 }
@@ -478,42 +550,50 @@ void I()
 {
     if (c == 'f')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '(')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             R();
             if (c == ')')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 ListaP();
                 IP();
                 if (c == ':')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     return;
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter ':'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ");
         return;
     }
 }
@@ -522,66 +602,77 @@ void W()
 {
     if (c == 'w')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '(')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             R();
             if (c == ')')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 if (c == 'm')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     if (c == '{')
                     {
-                        c = getchar(); counter++;
+                        c = fgetc(archAtomos);
+                        counter++;
                         ListaP();
                         if (c == '}')
                         {
-                            c = getchar(); counter++;
+                            c = fgetc(archAtomos);
+                            counter++;
                             return;
                         }
                         else
                         {
-                            rechaza(counter); 
+                            rechaza(counter);
+                            printf("Se esperaba el caracter '}'\n");
                             return;
                         }
                     }
                     else
                     {
-                        rechaza(counter); 
+                        rechaza(counter);
+                        printf("Se esperaba el caracter '{'\n");
                         return;
                     }
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter 'm'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ')'\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '('\n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'w'\n");
         return;
     }
 }
 
 void ListaP()
 {
-    if(counter >55) printf("LisP %c %i\n", c, counter);
     if (c == '}' || c == 't' || c == ':' || c == 'q' || c == 'a' || c == 'o')
     {
         return;
@@ -593,7 +684,8 @@ void ListaP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c' o '}' o 't' o ':' o 'q' o 'a' o 'o'\n");
         return;
     }
 }
@@ -637,16 +729,19 @@ void P()
     }
     else if (c == 'c')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == ';')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o 'c'\n");
         return;
     }
 }
@@ -655,12 +750,14 @@ void VPPP()
 {
     if (c == 's' || c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 's' o 'i' \n");
         return;
     }
 }
@@ -669,12 +766,14 @@ void VPP()
 {
     if (c == 'r' || c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'r' o 'i' \n");
         return;
     }
 }
@@ -683,27 +782,30 @@ void VP()
 {
     if (c == 'i' || c == 'n')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'n' \n");
         return;
     }
 }
 
 void V()
 {
-    if(counter >80) printf("V %c %i\n", c, counter);
     if (c == 'i' || c == 'n' || c == 'r' || c == 's')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'n' o 'r' 's' \n");
         return;
     }
 }
@@ -712,76 +814,84 @@ void RP()
 {
     if (c == '<' || c == '>' || c == 'l' || c == 'e' || c == 'd' || c == 'u')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '<' o '>' o 'l' o 'e' o 'd' o 'u' \n");
         return;
     }
 }
 
 void R()
 {
-    if(counter >55) printf("R %c %i\n", c, counter);
     if (c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         RP();
         V();
         return;
     }
     else if (c == 'n')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         RP();
         VP();
         return;
     }
     else if (c == 'r')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         RP();
         VPP();
         return;
     }
     else if (c == 's')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         RP();
         VPPP();
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'n' o 'r' o 's' \n");
         return;
     }
 }
 
 void F()
 {
-    if(counter >55) printf("F %c %i\n", c, counter);
     if (c == '(')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         E();
-        if(counter >55) printf("F %c %i\n", c, counter);
         if (c == ')')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             return;
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter ')' \n");
             return;
         }
     }
     else if (c == 'i' || c == 'n' || c == 'r')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else if (c == '[')
@@ -791,34 +901,35 @@ void F()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'n' o 'r' o '(' o '[' \n");
         return;
     }
 }
 
 void TP()
 {
-    if(counter >55) printf("TP %c %i\n", c, counter);
     if (c == '*' || c == '/' || c == '\\' || c == '%' || c == '^')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         F();
         TP();
     }
-    else if (c == '+' || c == '-' || c == ';' || c==')')
+    else if (c == '+' || c == '-' || c == ';' || c == ')')
     {
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '*' o '/' o '\\' o '%%' o '^' o '+' o '-' o ';' o ')' \n");
         return;
     }
 }
 
 void T()
 {
-    if(counter >55) printf("T %c %i\n", c, counter);
     if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
     {
         F();
@@ -827,17 +938,18 @@ void T()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
 
 void EP()
 {
-    if(counter >55) printf("EP %c %i\n", c, counter);
     if (c == '+' || c == '-')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         T();
         EP();
         return;
@@ -848,33 +960,34 @@ void EP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '+' o '-' o ')' o ';' \n");
         return;
     }
 }
 
 void E()
 {
-    if(counter >85) printf("E %c %i\n", c, counter);
     if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
     {
         T();
         EP();
-        printf("E %c %i\n", c, counter);
         return;
-    }else
+    }
+    else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
 
 void AP()
 {
-    if(counter >55) printf("AP%c %i\n", c, counter);
     if (c == 's')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else if (c == '(' || c == 'i' || c == 'n' || c == 'r' || c == '[')
@@ -884,7 +997,8 @@ void AP()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 's' o '(' o 'i' o 'n' o 'r' o '[' \n");
         return;
     }
 }
@@ -893,31 +1007,37 @@ void A()
 {
     if (c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         if (c == '=')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             AP();
             if (c == ';')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 return;
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter ';' \n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter '=' \n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' \n");
         return;
     }
 }
@@ -930,13 +1050,15 @@ void C()
     }
     else if (c == ',')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         K();
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ';' o ',' \n");
         return;
     }
 }
@@ -945,12 +1067,14 @@ void N()
 {
     if (c == 'n' || c == 'r' || c == 's')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'n' o 'r' o 's' \n");
         return;
     }
 }
@@ -963,20 +1087,23 @@ void Q()
     }
     else if (c == '=')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         N();
         C();
         return;
     }
     else if (c == ',')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         K();
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ';' o '=' o ',' \n");
         return;
     }
 }
@@ -985,13 +1112,15 @@ void K()
 {
     if (c == 'i')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         Q();
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' \n");
         return;
     }
 }
@@ -1000,12 +1129,14 @@ void Tipo()
 {
     if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         return;
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1018,18 +1149,21 @@ void D()
         K();
         if (c == ';')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             return;
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter ';' \n");
             return;
         }
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1048,7 +1182,8 @@ void Decl()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' o 'b' o 'g' o '#' o 'y' o 'x' \n");
         return;
     }
 }
@@ -1063,7 +1198,8 @@ void Cuerpo()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o 'i' o 'f' o 'h' o 'w' o 'j' o '[' o 'z' o '}' o 'c' \n");
         return;
     }
 }
@@ -1072,7 +1208,8 @@ void Otroparam()
 {
     if (c == ',')
     {
-        c = getchar(); counter++;
+        c = fgetc(archAtomos);
+        counter++;
         Tipo();
         if (c == 'i')
         {
@@ -1081,7 +1218,8 @@ void Otroparam()
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter 'i' \n");
             return;
         }
         return;
@@ -1092,7 +1230,8 @@ void Otroparam()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter ',' o ')' \n");
         return;
     }
 }
@@ -1111,7 +1250,8 @@ void Otrafunc()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1123,8 +1263,13 @@ void Param()
         Tipo();
         if (c == 'i')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             Otroparam();
+            return;
+        }else{
+            rechaza(counter);
+            printf("Se esperaba el caracter 'i'\n");
             return;
         }
     }
@@ -1134,71 +1279,81 @@ void Param()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x' o ')' \n");
         return;
     }
 }
 
 void Func()
 {
-    printf("Func %c %i\n", c, counter);
     if (c == 'b' || c == 'g' || c == '#' || c == 'y' || c == 'x')
     {
         Tipo();
         if (c == 'i')
         {
-            c = getchar(); counter++;
+            c = fgetc(archAtomos);
+            counter++;
             if (c == '(')
             {
-                c = getchar(); counter++;
+                c = fgetc(archAtomos);
+                counter++;
                 Param();
                 if (c == ')')
                 {
-                    c = getchar(); counter++;
+                    c = fgetc(archAtomos);
+                    counter++;
                     if (c == '{')
 
                     {
-                        c = getchar(); counter++;
+                        c = fgetc(archAtomos);
+                        counter++;
                         Cuerpo();
                         if (c == '}')
                         {
-                            c = getchar(); counter++;
+                            c = fgetc(archAtomos);
+                            counter++;
                             return;
                         }
                         else
                         {
-                            rechaza(counter); 
+                            rechaza(counter);
+                            printf("Se esperaba el caracter '}'\n");
                             return;
                         }
                     }
                     else
                     {
-                        rechaza(counter); 
+                        rechaza(counter);
+                        printf("Se esperaba el caracter '{' \n");
                         return;
                     }
                 }
                 else
                 {
-                    rechaza(counter); 
+                    rechaza(counter);
+                    printf("Se esperaba el caracter ')'\n");
                     return;
                 }
             }
             else
             {
-                rechaza(counter); 
+                rechaza(counter);
+                printf("Se esperaba el caracter '('\n");
                 return;
             }
         }
         else
         {
-            rechaza(counter); 
+            rechaza(counter);
+            printf("Se esperaba el caracter 'i'\n");
             return;
         }
     }
     else
     {
-        printf("Error en la linea %d: Se esperaba un tipo de dato\n", counter);
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
@@ -1213,34 +1368,35 @@ void Program()
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el caracter 'b' o 'g' o '#' o 'y' o 'x'\n");
         return;
     }
 }
 
-void parser()
+void parser(FILE *arch)
 {
-    freopen("lex_an_cadena_atomos.out", "r", stdin);
-    freopen("parser.out", "w", stdout);
-    fseek(stdin, 0, 0);
-    c = getchar(); counter++;
-    printf("Program %c %i\n", c, counter); 
+    //freopen("output/lex_an_cadena_atomos.out", "r", stdin);
+    archAtomos = arch;
+    freopen("output/parser.out", "w", stdout);
+    c = fgetc(archAtomos);
+    //set buffer at the beginning of the file
+    fpos_t pos;
+    printf("pos: %d\n",fgetpos(archAtomos, &pos));
+    counter++;
     Program();
-    if (c == -1 )
+    if (c == -1)
     {
-        printf("Aceptado!");
+        printf("Programa sintácticamente correcto!");
+        printf("counter: %d\n", counter);
     }
     else
     {
-        rechaza(counter); 
+        rechaza(counter);
+        printf("Se esperaba el fin de cadena \n");
         return;
     }
     fclose(stdin);
     fclose(stdout);
-}
-
-int main(){
-    parser();
-    return 0;
 }
 

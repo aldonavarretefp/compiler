@@ -24,6 +24,7 @@
 \usepackage{adjustbox}
 \usepackage[demo]{graphicx}
 \usepackage{caption}
+\usepackage{longtable}
 \usepackage{subcaption}
 \usepackage{siunitx,booktabs,caption}
 \usepackage{listings}
@@ -152,8 +153,34 @@ ASIGNATURA \\
 
 \newpage
 
+% --- Objetivos
+\section{Objetivos}
+Construir, en un mismo programa, los analizadores Léxico y Sintáctico Descendente Recursivo que revisen programas escritos en el lenguaje definido por la gramática definida en la clase.
+
 % --- Descripción
 \section{Descripción del problema}
+
+Un compilador se compone de tres analizadores principalmente: 
+
+\begin{enumerate}
+  \item \textbf{El analizador léxico}, que se encarga de reconocer cada caracter a la entrada, generar las tablas de símbolos, además de la tabla de cadenas, entre otros. Finalmente, manda esta información en forma de tokens y cadena de átomos al analizador sintáctico.
+  \item \textbf{El analizador sintáctico}, el cual se encarga de reconocer la cadena de átomos generada por el analizador léxico y detectar errores de sintaxis dentro de nuestro programa.
+  \item \textbf{El analizador semántico}, que utiliza la información en la tabla de símbolos para comprobar la consistencia semántica del programa fuente con la definición del lenguaje. También recopila información sobre el tipo y la guarda en la tabla de símbolos, para usarla más tarde durante la generación de código intermedio.
+\end{enumerate}
+
+\textbf{El analizador sintáctico} será el discutido y documentado en este archivo y realizado en este segundo proyecto de la materia de compiladores. Este analizador sintáctico se desarrollará en un archivo distinto al del analizador léxico.
+
+\subsection{Modificaciones al analizador léxico}
+Para este proyecto, partimos de la salida que nos generará el analizador léxico una vez procesada la información del archivo de entrada.
+
+Dicho analizador léxico generará las tablas de símbolos y literales, así como los tokens que se transferirán al analizador sintáctico. Este analizador léxico será realizado en lex, LEX es un generador de programas diseñado para procesamiento léxico de flujo de entrada y salida de caracteres. Pero, este analizador tiene algunas restricciones, como por ejemplo:\par
+En este documento se describe el problema para afrontar dentro del desarrollo del software que corresponde al analizador sintáctico.
+
+El número de clase es \textbf{inamovible}. 
+
+Además, el analizador léxico tendrá como entrada un archivo con el programa fuente, el cual se indicará desde la línea de comandos al momento de mandar a ejecutar el analizador léxico.
+
+Como delimitador de un componente léxico será uno o vario
 
 
 \begin{figure}[htpb!]
@@ -165,6 +192,64 @@ ASIGNATURA \\
 
 %---- Propuesta de solución
 \section{Conjuntos de selección para cada producción}
+\begin{center}
+  \begin{longtable}{| c | c | }
+    \hline
+  \multicolumn{2}{|c|}{\textbf{Conjuntos de selección para cada producción}} \\ \hline 
+  c.s(1) = \(\{b g # y x\}\)  & c.s(51) = \(\{<\}\) \\   \hline
+  c.s(2) = \(\{b g # y x\}\)  & c.s(52) = \(\{l\}\) \\    \hline
+  c.s(3) = \(\{ -|\}\)        & c.s(53) = \(\{e\}\) \\    \hline
+  c.s(4) = \(\{b g # y x\}\)  & c.s(54) = \(\{d\}\) \\    \hline
+  c.s(5) = \(\{b g # y x\}\)  & c.s(55) = \(\{u\}\) \\    \hline
+  c.s(6) = \(\{)\}\)  & c.s(56) = \(\{i\}\)\\    \hline
+  c.s(7) = \(\{,\}\)  & c.s(57) = \(\{n\}\) \\   \hline
+  c.s(8) = \(\{)\}\)  & c.s(58) = \(\{r\}\) \\   \hline
+  c.s(9) = \(\{b g # y x i f h w j [ z } c \}\)  & c.s(59) = \(\{s\}\) \\   \hline
+  c.s(10) = \(\{i f h w j [ z } c\}\)  & c.s(60) = \(\{n\}\) \\ \hline
+  c.s(11) = \(\{b g # y x\}\) & c.s(61) = \(\{i\}\) \\ \hline
+  c.s(12) = \(\{b g # y x\}\) & c.s(62) = \(\{r\}\) \\ \hline
+  c.s(13) = \(\{b\}\) & c.s(63) = \(\{i\}\) \\ \hline
+  c.s(14) = \(\{g\}\) & c.s(64) = \(\{s\}\) \\ \hline
+  c.s(15) = \(\{#\}\) & c.s(65) = \(\{i\}\) \\ \hline
+  c.s(16) = \(\{y\}\) & c.s(66) = \(\{i\}\) \\ \hline
+  c.s(17) = \(\{x\}\) & c.s(67) = \(\{f\}\) \\ \hline
+  c.s(18) = \(\{i\}\) & c.s(68) = \(\{h\}\) \\ \hline
+  c.s(19) = \(\{;\}\) & c.s(69) = \(\{w\}\) \\ \hline
+  c.s(20) = \(\{=\}\) & c.s(70) = \(\{j\}\) \\ \hline
+  c.s(21) = \(\{,\}\) & c.s(71) = \(\{[\}\) \\ \hline
+  c.s(22) = \(\{n\}\) & c.s(72) = \(\{z\}\) \\ \hline
+  c.s(23) = \(\{r\}\) & c.s(73) = \(\{c\}\) \\ \hline
+  c.s(24) = \(\{s\}\) & c.s(74) = \(\{ } t : q a o \}\) \\ \hline
+  c.s(25) = \(\{;\}\) & c.s(75) = \(\{i f h w j [ z c\}\) \\ \hline
+  c.s(26) = \(\{,\}\) & c.s(76) = \(\{w\}\) \\ \hline
+  c.s(27) = \(\{i\}\) & c.s(77) = \(\{f\}\) \\ \hline
+  c.s(28) = \(\{s\}\) & c.s(78) = \(\{t\}\) \\ \hline
+  c.s(29) = \(\{( i n r [\}\) & c.s(79) = \(\{:\}\) \\ \hline
+  c.s(30) = \(\{( i n r [\}\) & c.s(80) = \(\{j\}\) \\ \hline
+  c.s(31) = \(\{+\}\) & c.s(81) = \(\{i\}\) \\ \hline
+  c.s(32) = \(\{-\}\) & c.s(82) = \(\{;\}\) \\ \hline
+  c.s(33) = \(\{) ;\}\) & c.s(83) = \(\{i n r s\}\) \\ \hline
+  c.s(34) = \(\{( i n r [\}\) & c.s(84) = \(\{;\}\) \\ \hline
+  c.s(35) = \(\{*\}\) & c.s(85) = \(\{i\}\) \\ \hline
+  c.s(36) = \(\{/\}\) & c.s(86) = \(\{)\}\) \\ \hline
+  c.s(37) = \(\{ \ \}\) & c.s(87) = \(\{h\}\) \\ \hline
+  c.s(38) = \(\{ \% \}\) & c.s(88) = \(\{a\}\) \\ \hline
+  c.s(39) = \(\{^\}\) & c.s(89) = \(\{} o\}\) \\ \hline
+  c.s(40) = \(\{+ - ; )\}\) & c.s(90) = \(\{o\}\) \\ \hline
+  c.s(41) = \(\{(\}\) & c.s(91) = \(\{}\}\) \\ \hline
+  c.s(42) = \(\{i\}\) & c.s(92) = \(\{q\}\) \\ \hline
+  c.s(43) = \(\{n\}\) & c.s(93) = \(\{a } o\}\) \\ \hline
+  c.s(44) = \(\{r\}\) & c.s(94) = \(\{z\}\) \\ \hline
+  c.s(45) = \(\{[\}\) & c.s(95) = \(\{i n r s\}\) \\ \hline
+  c.s(46) = \(\{i\}\) & c.s(96) = \(\{)\}\) \\ \hline
+  c.s(47) = \(\{n\}\) & c.s(97) = \(\{[\}\) \\ \hline
+  c.s(48) = \(\{r\}\) & c.s(98) = \(\{)\}\) \\ \hline
+  c.s(49) = \(\{s\}\) & c.s(99) = \(\{ i n r s \}\) \\ \hline
+  c.s(50) = \(\{>\}\)   & c.s(100) =\(\{,\}\) \\ \hline
+                        & c.s(101) =\(\{)\}\) \\
+  \hline
+  \end{longtable}
+  \end{center}
 
 %----- Ejecución del programa
 \section{Ejecución del programa}

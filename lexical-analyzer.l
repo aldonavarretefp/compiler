@@ -1,6 +1,7 @@
 %{
 #include <math.h>
-#import "parser.h"
+#import "parserFolder/parser.h"
+#include <string.h>
 /* 
 Programa que lee un programa y hace elreconocimiento de identificadores, 
 palabras reservadas y enteros de un lenguaje x
@@ -98,24 +99,13 @@ palabra         ({let}|{constentera})+
 %%
 
 void addToChainTable(char* yytext){
-        char *c = malloc(sizeof(char) * (strlen(yytext) - 1));
-        for(int i = 0; i < strlen(yytext); i++){
-                c[i] = yytext[i];
-        }
+        char *c = (char*)malloc(sizeof(char) * (strlen(yytext) + 1));
+        strcpy(c, yytext);
         if(ptrTL == lengthTL){
                 lengthTL *= 2;
                 tablaCadena = realloc(tablaCadena, sizeof(char*) * lengthTL);
         }
-        printf("Agregando a tabla de cadena: %s\n", c);
         tablaCadena[ptrTL] = c;
-        int size = strlen(c);
-        printf("Size: %d\n", size);
-
-        //imprimir valores de tabla de cadena
-        for(int i = 0; i < ptrTL; i++){
-                printf("%i: %s\n",i, tablaCadena[i]);
-        }
-
         ptrTL++;
 }
 
@@ -200,8 +190,6 @@ int getIdxOpRel(char * yytext) {
 void printTablaCadena(){
         printf("*** Tabla de Cadenas ***\n-------------------------\n");
         for(int i = 0; i < ptrTL; i++){
-                printf("%s\n", tablaCadena[i]);
-                printf("size: %d\n", strlen(tablaCadena[i]));
                 printf("%6d | %s\n",i, tablaCadena[i]);
         }
         printf("\n");
@@ -273,9 +261,9 @@ int main(int argc, char *argv[]){
         }
 
         yyin = fopen(argv[1],"r");
-        archSal = fopen("lex_an_output.txt","w");
-        archReg = fopen("lex_an_reg.txt","w");
-        archCadenaAtomos = fopen("lex_an_cadena_atomos.out","w");
+        archSal = fopen("output/lex_an_output.txt","w");
+        archReg = fopen("output/lex_an_reg.txt","w");
+        archCadenaAtomos = fopen("output/lex_an_cadena_atomos.out","w");
 
 
         tablaSimbolos = (ident *)malloc(100*sizeof(ident));                      
@@ -283,11 +271,12 @@ int main(int argc, char *argv[]){
         tablaCadena   = (char **)malloc(lengthTL*sizeof(char *));
 
         yylex();
-        printf("size of char %d\n", sizeof(char *));
 
         printTablaCadena();
         printTablaSimbolos();
         printTablaReales();
+
+        parser(archCadenaAtomos);
 
         free(tablaSimbolos);
         free(tablaReales);

@@ -11,3 +11,6 @@ Make sure to have Flex installed on your system. Then, run the following command
 4. Run `./lexical-analyzer.out inputFile.txt`
 5. The output will be in `lex_an_output.txt`
 
+# Sintactic Analyzer
+
+
